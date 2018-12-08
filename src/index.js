@@ -13,12 +13,25 @@ const jsUcfirst = (string) =>
 }
 
 class Dog extends React.Component {
+  componentDidMount() {
+    fetch('https://dog.ceo/api/breeds/image/random')
+    .then(results => {
+      return results.json()
+    }).then(data => {
+      let img = data.message
+      let breed = img.split('/breeds/')[1].split('/')[0]
+      this.setState({imageUrl: img, dogBreed: breed})
+    })
+  }
+
   render() {
-    var img = DogList[this.props.id] + '.jpg'
+    console.log(this.state)
+    if (!this.state) {
+      return (<div/>)
+    }
     return (
       <React.Fragment>
-        <input type="image" className="dog" src={img} onClick={this.props.selectDog} className="col-sm-10 col-md-6 col-lg-3" style={{maxWidth: '420px', marginBottom: '20px'}}>
-          {/* TODO */}
+        <input type="image" className="dog" src={this.state.imageUrl} onClick={() => {this.props.selectDog(this.state.dogBreed)}} className="col-sm-6 col-md-4 col-lg-3" style={{marginBottom: '20px'}}>
         </input>
       </React.Fragment>
     );
@@ -33,18 +46,19 @@ class DogsContainer extends React.Component {
     }
   }
 
-  selectDog(i) {
-    this.setState({myDog: i})
+  selectDog(breed) {
+    this.setState({myDog: breed})
   }
 
   renderDog(i) {
-    return <Dog id={i} selectDog={() => this.selectDog(i)}/>;
+    return <Dog id={i} selectDog={this.selectDog.bind(this)}/>;
   }
 
   render() {
+    console.log(this.state)
     var status = 'Current Dog: ';
     if (this.state.myDog != null) {
-      status += jsUcfirst(DogList[this.state.myDog]) + '.'
+      status += jsUcfirst(this.state.myDog) + '.'
     }
 
     return (
