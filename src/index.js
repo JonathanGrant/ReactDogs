@@ -31,7 +31,7 @@ class Dog extends React.Component {
     }
     return (
       <React.Fragment>
-        <input type="image" className="dog" src={this.state.imageUrl} onClick={() => {this.props.selectDog(this.state.dogBreed)}} className="col-sm-6 col-md-4 col-lg-3" style={{marginBottom: '20px'}}>
+        <input type="image" className="dog" src={this.state.imageUrl} onClick={() => {this.props.selectDog(this.state.dogBreed)}} className="col-sm-12 col-md-6 col-lg-4" style={{maxWidth: '100%', width: 'auto', height: 'auto', marginBottom: '20px'}}>
         </input>
       </React.Fragment>
     );
