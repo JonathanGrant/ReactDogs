@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import 'react-sticky-header/styles.css';
+import StickyHeader from 'react-sticky-header';
 
 const DogList = [
   'frenchie', 'bulldog', 'lab', 'boxer', 'pitbull', 'aussie', 'auscattle', 'azawakh', 'lifeguard'
@@ -47,7 +49,10 @@ class DogsContainer extends React.Component {
 
     return (
       <div>
-        <div className="status">{status}</div>
+        <StickyHeader
+          header={<div className="status" style={{backgroundColor: 'blue'}}>{status}</div>}>
+        <div style={{minHeight: '50px'}}/>
+        </StickyHeader>
         <div className="row">
           {this.renderDog(0)}
           {this.renderDog(1)}
