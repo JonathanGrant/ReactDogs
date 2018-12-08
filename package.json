@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://JonathanGrant.github.io/ReactDogs",
+  "homepage": "https://jonathangrant.github.io/ReactDogs",
   "dependencies": {
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
