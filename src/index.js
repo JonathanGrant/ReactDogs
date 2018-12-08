@@ -1,12 +1,87 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const DogList = [
+  'frenchie', 'bulldog', 'lab', 'boxer', 'pitbull', 'aussie', 'auscattle', 'azawakh', 'lifeguard'
+]
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const jsUcfirst = (string) =>
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+class Dog extends React.Component {
+  render() {
+    var img = DogList[this.props.id] + '.jpg'
+    return (
+      <React.Fragment>
+        <input type="image" className="dog" src={img} onClick={this.props.selectDog} className="col-sm-10 col-md-6 col-lg-3" style={{maxWidth: '420px', marginBottom: '20px'}}>
+          {/* TODO */}
+        </input>
+      </React.Fragment>
+    );
+  }
+}
+
+class DogsContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+        myDog: null,
+    }
+  }
+
+  selectDog(i) {
+    this.setState({myDog: i})
+  }
+
+  renderDog(i) {
+    return <Dog id={i} selectDog={() => this.selectDog(i)}/>;
+  }
+
+  render() {
+    var status = 'Current Dog: ';
+    if (this.state.myDog != null) {
+      status += jsUcfirst(DogList[this.state.myDog]) + '.'
+    }
+
+    return (
+      <div>
+        <div className="status">{status}</div>
+        <div className="row">
+          {this.renderDog(0)}
+          {this.renderDog(1)}
+          {this.renderDog(2)}
+          {this.renderDog(3)}
+          {this.renderDog(4)}
+          {this.renderDog(5)}
+          {this.renderDog(6)}
+          {this.renderDog(7)}
+          {this.renderDog(8)}
+        </div>
+      </div>
+    );
+  }
+}
+
+class Site extends React.Component {
+  render() {
+    return (
+      <div className="container-fluid">
+        <DogsContainer />
+        <div className="dog-info">
+          <div>{/* status */}</div>
+          <ol>{/* TODO */}</ol>
+        </div>
+      </div>
+    );
+  }
+}
+
+// ========================================
+
+ReactDOM.render(
+  <Site />,
+  document.getElementById('root')
+);
+
