@@ -50,7 +50,7 @@ class DogsContainer extends React.Component {
     return (
       <div>
         <StickyHeader
-          header={<div className="status" style={{backgroundColor: 'blue'}}>{status}</div>}>
+          header={<div className="status" style={{backgroundColor: 'blue', color: 'white'}}>{status}</div>}>
         <div style={{minHeight: '50px'}}/>
         </StickyHeader>
         <div className="row">
