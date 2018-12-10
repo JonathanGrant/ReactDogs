@@ -2,10 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import 'react-sticky-header/styles.css';
 import StickyHeader from 'react-sticky-header';
-
-const DogList = [
-  'frenchie', 'bulldog', 'lab', 'boxer', 'pitbull', 'aussie', 'auscattle', 'azawakh', 'lifeguard'
-]
+import _ from 'lodash'
 
 const jsUcfirst = (string) =>
 {
@@ -26,7 +23,7 @@ class Dog extends React.Component {
 
   render() {
     console.log(this.state)
-    if (!this.state) {
+    if (! this.state) {
       return (<div/>)
     }
     return (
@@ -43,7 +40,29 @@ class DogsContainer extends React.Component {
     super(props)
     this.state = {
         myDog: null,
+        allDogs: this.renderDogs(10),
+        loading: false,
     }
+  }
+
+  componentDidMount() {
+    this.refs.myscroll.addEventListener("scroll", () => {
+      console.log(this.refs.myscroll)
+      if (this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
+          this.refs.myscroll.scrollHeight) {
+        this.loadMore()
+      }
+    })
+  }
+
+  loadMore() {
+    this.setState({loading: true})
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+        allDogs: this.state.allDogs.concat(this.renderDogs(10)),
+      })
+    }, 500)
   }
 
   selectDog(breed) {
@@ -54,8 +73,16 @@ class DogsContainer extends React.Component {
     return <Dog id={i} selectDog={this.selectDog.bind(this)}/>;
   }
 
+  renderDogs(num) {
+    var dogs = []
+    for (let i = 0; i < num; i++) {
+      dogs.push(this.renderDog(num))
+    }
+    return dogs
+  }
+
   render() {
-    console.log(this.state)
+    console.log(this)
     var status = 'Current Dog: ';
     if (this.state.myDog != null) {
       status += jsUcfirst(this.state.myDog) + '.'
@@ -67,16 +94,9 @@ class DogsContainer extends React.Component {
           header={<div className="status" style={{backgroundColor: 'blue', color: 'white'}}>{status}</div>}>
         <div style={{minHeight: '50px'}}/>
         </StickyHeader>
-        <div className="row">
-          {this.renderDog(0)}
-          {this.renderDog(1)}
-          {this.renderDog(2)}
-          {this.renderDog(3)}
-          {this.renderDog(4)}
-          {this.renderDog(5)}
-          {this.renderDog(6)}
-          {this.renderDog(7)}
-          {this.renderDog(8)}
+        <div className="row" ref="myscroll" style={{height: '1400px', overflow: 'auto'}}>
+          {this.state.allDogs}
+          {this.state.loading ? <p className="App-intro">loading ...</p> : ""}
         </div>
       </div>
     );
@@ -103,4 +123,3 @@ ReactDOM.render(
   <Site />,
   document.getElementById('root')
 );
-
